@@ -22,7 +22,7 @@
  * ---------------	----------------	------------
  * Sang-cheon Park	2013. 12. 5.		First Draft.
  */
-package com.athena.dolly.console.module;
+package com.athena.dolly.console.module.hotrod;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,6 +36,8 @@ import org.infinispan.client.hotrod.ServerStatistics;
 import org.infinispan.client.hotrod.configuration.ConfigurationBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.athena.dolly.console.module.core.DollyConfig;
 
 /**
  * <pre>

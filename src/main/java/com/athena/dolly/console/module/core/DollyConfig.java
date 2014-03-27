@@ -22,7 +22,7 @@
  * ---------------	----------------	------------
  * Sang-cheon Park	2013. 12. 5.		First Draft.
  */
-package com.athena.dolly.console.module;
+package com.athena.dolly.console.module.core;
 
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
@@ -30,6 +30,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+
+import com.athena.dolly.console.module.hotrod.ConfigurationException;
 
 /**
  * <pre>

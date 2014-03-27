@@ -38,9 +38,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import com.athena.dolly.console.exception.ResourceNotFoundException;
-import com.athena.dolly.console.module.DollyManager;
-import com.athena.dolly.console.module.DollyStats;
+import com.athena.dolly.console.module.hotrod.DollyManager;
+import com.athena.dolly.console.module.hotrod.DollyStats;
+import com.athena.dolly.console.web.exception.ResourceNotFoundException;
 
 /**
  * <pre>

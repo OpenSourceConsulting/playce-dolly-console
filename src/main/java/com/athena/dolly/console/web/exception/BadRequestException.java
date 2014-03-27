@@ -22,7 +22,7 @@
  * ---------------	----------------	------------
  * Sang-cheon Park	2014. 3. 27.		First Draft.
  */
-package com.athena.dolly.console.exception;
+package com.athena.dolly.console.web.exception;
 
 
 /**
