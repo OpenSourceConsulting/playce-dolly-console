@@ -399,6 +399,12 @@
 			</exclusions> -->
 		</dependency>	
 		
+		<dependency>
+		    <groupId>com.sun.jersey</groupId>
+		    <artifactId>jersey-client</artifactId>
+		    <version>1.12</version>
+		</dependency>
+		
         <dependency>
 			<groupId>javax.ws.rs</groupId>
 			<artifactId>jsr311-api</artifactId>

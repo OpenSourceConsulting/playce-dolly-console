@@ -43,7 +43,6 @@ public class ApplicationContextProvider implements ApplicationContextAware {
 	 * Wiring the ApplicationContext into a static method
 	 */
     public void setApplicationContext(ApplicationContext ctx) throws BeansException {
-    	System.out.println("!!!!!!!\n!!!!!!!\n!!!!!!!!\n!!!!!!!!\n");
         AppContext.setApplicationContext(ctx);
     }
 } 

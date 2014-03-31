@@ -13,7 +13,7 @@
 	<context:annotation-config /> 
  
 	<!-- Configures the Spring MVC @Controller programming model -->
-	<context:component-scan base-package="com.athena.dolly.console.common" use-default-filters="false" >
+	<context:component-scan base-package="com.athena.dolly.console.common, com.athena.dolly.console.module" use-default-filters="false" >
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Component" />
 	</context:component-scan>
 	

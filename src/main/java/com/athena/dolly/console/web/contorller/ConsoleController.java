@@ -33,6 +33,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -40,6 +41,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.athena.dolly.console.module.hotrod.DollyManager;
 import com.athena.dolly.console.module.hotrod.DollyStats;
+import com.athena.dolly.console.module.jmx.JmxClientManager;
+import com.athena.dolly.console.module.jmx.vo.MemoryVo;
 import com.athena.dolly.console.web.exception.ResourceNotFoundException;
 
 /**
@@ -62,11 +65,23 @@ public class ConsoleController {
     	
     	DollyStats stat = DollyManager.getInstance().getStats();
     	
-    	if(stat == null) {
+    	if (stat == null) {
     		throw new ResourceNotFoundException("Resource Not Found at [" + request.getRequestURI() + "]");
         }
     	
     	return stat;
+    }
+    
+    @RequestMapping(value="/memory/{nodeName}", method=RequestMethod.GET)
+    @ResponseStatus(value=HttpStatus.OK)
+    @ResponseBody
+    public MemoryVo momory(HttpServletRequest request, @PathVariable String nodeName) {
+    	
+    	if (!JmxClientManager.isValidNodeName(nodeName)) {
+    		throw new ResourceNotFoundException("Resource Not Found at [" + request.getRequestURI() + "]");
+    	}
+    	
+    	return JmxClientManager.getMenoryUsage(nodeName);
     }
 
     @ResponseStatus(value=HttpStatus.NOT_FOUND)
