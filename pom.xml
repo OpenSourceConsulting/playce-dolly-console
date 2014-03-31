@@ -414,44 +414,32 @@
 	
 		<dependency>
 			<groupId>org.infinispan</groupId>
-			<artifactId>infinispan-commons</artifactId>
-			<version>6.0.2.Final</version>
-		</dependency>
-	
-		<dependency>
-			<groupId>org.infinispan</groupId>
 			<artifactId>infinispan-core</artifactId>
 			<version>6.0.2.Final</version>
 		</dependency>
-	
+		
 		<dependency>
-			<groupId>jboss</groupId>
-			<artifactId>jboss-remoting</artifactId>
-			<version>4.2.2.GA</version>
+			<groupId>org.jboss.as</groupId>
+			<artifactId>jboss-as-jmx</artifactId>
+			<version>7.2.0.Final</version>
 		</dependency>
-	
+		
 		<dependency>
-			<groupId>org.jboss.remotingjmx</groupId>
-			<artifactId>remoting-jmx</artifactId>
-			<version>1.1.0.Final</version>
+			<groupId>org.jboss.as</groupId>
+			<artifactId>jboss-as-system-jmx</artifactId>
+			<version>7.2.0.Final</version>
 		</dependency>
-	
+		
 		<dependency>
-			<groupId>org.jboss.spec.javax.transaction</groupId>
-			<artifactId>jboss-transaction-api_1.1_spec</artifactId>
-			<version>1.0.1.Final</version>
+			<groupId>org.jboss.as</groupId>
+			<artifactId>jboss-as-osgi-jmx</artifactId>
+			<version>7.2.0.Final</version>
 		</dependency>
-	
+		
 		<dependency>
-			<groupId>org.jboss.xnio</groupId>
-			<artifactId>xnio-api</artifactId>
-			<version>3.2.1.Final</version>
-		</dependency>
-	
-		<dependency>
-			<groupId>org.jboss.xnio</groupId>
-			<artifactId>xnio-nio</artifactId>
-			<version>3.2.1.Final</version>
+			<groupId>org.jboss.marshalling</groupId>
+			<artifactId>jboss-marshalling-river</artifactId>
+			<version>1.4.4.Final</version>
 		</dependency>
             
 	</dependencies>
