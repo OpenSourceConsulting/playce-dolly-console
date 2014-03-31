@@ -23,21 +23,17 @@
 	</filter-mapping>
 	
 	<!-- spring configuration files location -->
-	<!--
  	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath:spring/context-*.xml</param-value>
 	</context-param>
-	-->
 	
 	<!-- ==================================================== -->
 	<!--                      Listener                        -->
 	<!-- ==================================================== -->
-	<!--
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
-	-->
 	
   	<!-- ==================================================== -->
 	<!--                 Dispatcher(Servlet)                  -->
