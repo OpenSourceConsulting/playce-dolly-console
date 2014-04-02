@@ -24,7 +24,10 @@
  */
 package com.athena.dolly.console.web.contorller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
@@ -41,6 +44,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.athena.dolly.console.module.hotrod.DollyManager;
 import com.athena.dolly.console.module.hotrod.DollyStats;
+import com.athena.dolly.console.module.hotrod.SessionKey;
 import com.athena.dolly.console.module.jmx.JmxClientManager;
 import com.athena.dolly.console.module.jmx.vo.MemoryVo;
 import com.athena.dolly.console.web.exception.ResourceNotFoundException;
@@ -56,7 +60,7 @@ import com.athena.dolly.console.web.exception.ResourceNotFoundException;
 @RequestMapping("/")
 public class ConsoleController {
 
-    private static final Logger logger = LoggerFactory.getLogger(ConsoleController.class);    
+    private static final Logger logger = LoggerFactory.getLogger(ConsoleController.class);
 
     @RequestMapping(value="/getStat", method=RequestMethod.GET)
     @ResponseStatus(value=HttpStatus.OK)
@@ -70,6 +74,38 @@ public class ConsoleController {
         }
     	
     	return stat;
+    }   
+
+    @RequestMapping(value="/getSessionKeyList", method=RequestMethod.GET)
+    @ResponseBody
+    public List<SessionKey> getSessionKeyList(HttpServletRequest request) {
+    	return DollyManager.getInstance().getKeys();
+    }
+
+    @RequestMapping(value="/getSessionData", method=RequestMethod.GET)
+    @ResponseStatus(value=HttpStatus.OK)
+    @ResponseBody
+    public Object getSessionData(HttpServletRequest request, @QueryParam("key") String key) {
+    	
+    	if (key == null) {
+    		throw new ResourceNotFoundException("Resource Not Found at [" + request.getRequestURI() + "]");
+    	}
+    	
+    	return DollyManager.getInstance().getValue(key);
+    }
+
+    @RequestMapping(value="/deleteSessionData", method=RequestMethod.GET)
+    @ResponseStatus(value=HttpStatus.OK)
+    @ResponseBody
+    public String deleteSessionData(HttpServletRequest request, @QueryParam("key") String key) {
+    	
+    	if (key == null) {
+    		throw new ResourceNotFoundException("Resource Not Found at [" + request.getRequestURI() + "]");
+    	}
+    	
+    	DollyManager.getInstance().removeValue(key);
+    	
+    	return "success";
     }
     
     @RequestMapping(value="/memory/{nodeName}", method=RequestMethod.GET)

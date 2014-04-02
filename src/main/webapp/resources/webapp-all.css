@@ -4731,6 +4731,122 @@ img {
   position: relative;
 }
 
+/* line 2, ../../../../ext/packages/ext-theme-base/sass/src/panel/Table.scss */
+.x-grid-row,
+.x-grid-data-row {
+  outline: none;
+}
+
+/* line 6, ../../../../ext/packages/ext-theme-base/sass/src/panel/Table.scss */
+.x-grid-view {
+  overflow: hidden;
+  position: relative;
+}
+
+/* line 11, ../../../../ext/packages/ext-theme-base/sass/src/panel/Table.scss */
+.x-grid-table {
+  table-layout: fixed;
+  border-collapse: separate;
+}
+
+/* line 16, ../../../../ext/packages/ext-theme-base/sass/src/panel/Table.scss */
+.x-grid-td {
+  overflow: hidden;
+  border-width: 0;
+  vertical-align: top;
+}
+
+/* line 22, ../../../../ext/packages/ext-theme-base/sass/src/panel/Table.scss */
+.x-grid-cell-inner {
+  overflow: hidden;
+  white-space: nowrap;
+  zoom: 1;
+}
+
+/* line 28, ../../../../ext/packages/ext-theme-base/sass/src/panel/Table.scss */
+.x-grid-resize-marker {
+  position: absolute;
+  z-index: 5;
+  top: 0;
+}
+
+/* line 2, ../../../../ext/packages/ext-theme-base/sass/src/grid/header/DropZone.scss */
+.col-move-top,
+.col-move-bottom {
+  position: absolute;
+  top: 0;
+  line-height: 0;
+  font-size: 0;
+  overflow: hidden;
+  z-index: 20000;
+  background: no-repeat center top transparent;
+}
+
+/* line 1, ../../../../ext/packages/ext-theme-base/sass/src/grid/header/Container.scss */
+.x-grid-header-ct {
+  cursor: default;
+}
+
+/* line 1, ../../../../ext/packages/ext-theme-base/sass/src/grid/column/Column.scss */
+.x-column-header {
+  position: absolute;
+  overflow: hidden;
+  background-repeat: repeat-x;
+}
+
+/* line 7, ../../../../ext/packages/ext-theme-base/sass/src/grid/column/Column.scss */
+.x-column-header-inner {
+  zoom: 1;
+  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+}
+
+/* line 14, ../../../../ext/packages/ext-theme-base/sass/src/grid/column/Column.scss */
+.x-column-header-text {
+  white-space: nowrap;
+  background-repeat: no-repeat;
+  zoom: 1;
+  display: inline-block;
+}
+
+/* line 25, ../../../../ext/packages/ext-theme-base/sass/src/grid/column/Column.scss */
+.x-column-header-trigger {
+  display: none;
+  height: 100%;
+  background-repeat: no-repeat;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 2;
+}
+
+/* line 43, ../../../../ext/packages/ext-theme-base/sass/src/grid/column/Column.scss */
+.x-column-header-over .x-column-header-trigger, .x-column-header-open .x-column-header-trigger {
+  display: block;
+}
+
+/* line 48, ../../../../ext/packages/ext-theme-base/sass/src/grid/column/Column.scss */
+.x-column-header-align-right {
+  text-align: right;
+}
+
+/* line 58, ../../../../ext/packages/ext-theme-base/sass/src/grid/column/Column.scss */
+.x-column-header-align-left {
+  text-align: left;
+}
+
+/* line 68, ../../../../ext/packages/ext-theme-base/sass/src/grid/column/Column.scss */
+.x-column-header-align-center {
+  text-align: center;
+}
+
+/* line 1, ../../../../ext/packages/ext-theme-base/sass/src/grid/column/Action.scss */
+.x-grid-cell-inner-action-col {
+  line-height: 0;
+  font-size: 0;
+}
+
 /* line 1, ../../../../ext/packages/ext-theme-base/sass/src/resizer/Splitter.scss */
 .x-splitter {
   font-size: 1px;
@@ -4852,6 +4968,20 @@ img {
   background-color: #fff;
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
   opacity: 0;
+}
+
+/* line 1, ../../../../ext/packages/ext-theme-base/sass/src/selection/CheckboxModel.scss */
+.x-column-header-checkbox .x-column-header-text {
+  display: block;
+  background-repeat: no-repeat;
+  font-size: 0;
+}
+
+/* line 7, ../../../../ext/packages/ext-theme-base/sass/src/selection/CheckboxModel.scss */
+.x-grid-cell-row-checker {
+  vertical-align: middle;
+  background-repeat: no-repeat;
+  font-size: 0;
 }
 
 /* including package ext-theme-neutral */
@@ -12947,6 +13077,307 @@ textarea.x-form-empty-field {
   background-image: url(images/shared/icon-error.png);
 }
 
+/* line 1, ../../../../ext/packages/ext-theme-neutral/sass/src/panel/Table.scss */
+.x-grid-body {
+  background: white;
+  border-width: 1px;
+  border-style: solid;
+  border-color: silver;
+}
+
+/* line 8, ../../../../ext/packages/ext-theme-neutral/sass/src/panel/Table.scss */
+.x-grid-empty {
+  padding: 10px;
+  color: gray;
+  background-color: white;
+  font: normal 13px helvetica, arial, verdana, sans-serif;
+}
+
+/* line 15, ../../../../ext/packages/ext-theme-neutral/sass/src/panel/Table.scss */
+.x-grid-cell {
+  color: null;
+  font: normal 13px/15px helvetica, arial, verdana, sans-serif;
+  background-color: white;
+  border-color: #ededed;
+  border-style: solid;
+}
+
+/* line 26, ../../../../ext/packages/ext-theme-neutral/sass/src/panel/Table.scss */
+.x-grid-row-alt .x-grid-td {
+  background-color: #fafafa;
+}
+/* line 30, ../../../../ext/packages/ext-theme-neutral/sass/src/panel/Table.scss */
+.x-grid-row-before-over .x-grid-td {
+  border-bottom-style: solid;
+  border-bottom-color: #e2eff8;
+}
+/* line 35, ../../../../ext/packages/ext-theme-neutral/sass/src/panel/Table.scss */
+.x-grid-row-over .x-grid-td {
+  border-bottom-style: solid;
+  border-bottom-color: #e2eff8;
+}
+/* line 40, ../../../../ext/packages/ext-theme-neutral/sass/src/panel/Table.scss */
+.x-grid-row-before-selected .x-grid-td {
+  border-bottom-style: solid;
+  border-bottom-color: #c1ddf1;
+}
+/* line 45, ../../../../ext/packages/ext-theme-neutral/sass/src/panel/Table.scss */
+.x-grid-row-selected .x-grid-td {
+  border-bottom-style: solid;
+  border-bottom-color: #c1ddf1;
+}
+/* line 50, ../../../../ext/packages/ext-theme-neutral/sass/src/panel/Table.scss */
+.x-grid-row-before-focused .x-grid-td {
+  border-bottom-style: solid;
+  border-bottom-color: #e2eff8;
+}
+/* line 58, ../../../../ext/packages/ext-theme-neutral/sass/src/panel/Table.scss */
+.x-grid-row-focused .x-grid-td {
+  background-color: #e2eff8;
+}
+/* line 65, ../../../../ext/packages/ext-theme-neutral/sass/src/panel/Table.scss */
+.x-grid-row-over .x-grid-td {
+  background-color: #e2eff8;
+}
+/* line 73, ../../../../ext/packages/ext-theme-neutral/sass/src/panel/Table.scss */
+.x-grid-row-selected .x-grid-td {
+  background-color: #c1ddf1;
+}
+/* line 82, ../../../../ext/packages/ext-theme-neutral/sass/src/panel/Table.scss */
+.x-grid-row-focused .x-grid-td {
+  border-bottom-style: solid;
+  border-bottom-color: #e2eff8;
+}
+/* line 96, ../../../../ext/packages/ext-theme-neutral/sass/src/panel/Table.scss */
+.x-grid-with-row-lines .x-grid-row-focused-first .x-grid-td {
+  border-top: 1px solid #e2eff8;
+}
+/* line 103, ../../../../ext/packages/ext-theme-neutral/sass/src/panel/Table.scss */
+.x-grid-row-selected .x-grid-row-summary .x-grid-td {
+  border-bottom-color: #c1ddf1;
+  border-top-width: 0;
+}
+/* line 108, ../../../../ext/packages/ext-theme-neutral/sass/src/panel/Table.scss */
+.x-grid-row-focused .x-grid-row-summary .x-grid-td {
+  border-bottom-color: #e2eff8;
+  border-top-width: 0;
+}
+
+/* line 115, ../../../../ext/packages/ext-theme-neutral/sass/src/panel/Table.scss */
+.x-grid-with-row-lines .x-grid-td {
+  border-bottom-width: 1px;
+}
+/* line 121, ../../../../ext/packages/ext-theme-neutral/sass/src/panel/Table.scss */
+.x-grid-with-row-lines .x-grid-table {
+  border-top: 1px solid white;
+}
+/* line 125, ../../../../ext/packages/ext-theme-neutral/sass/src/panel/Table.scss */
+.x-grid-with-row-lines .x-grid-table-over-first {
+  border-top-style: solid;
+  border-top-color: #e2eff8;
+}
+/* line 130, ../../../../ext/packages/ext-theme-neutral/sass/src/panel/Table.scss */
+.x-grid-with-row-lines .x-grid-table-selected-first {
+  border-top-style: solid;
+  border-top-color: #c1ddf1;
+}
+
+/* line 143, ../../../../ext/packages/ext-theme-neutral/sass/src/panel/Table.scss */
+.x-grid-with-row-lines .x-grid-table-focused-first {
+  border-top-style: solid;
+  border-top-color: #e2eff8;
+}
+
+/* line 149, ../../../../ext/packages/ext-theme-neutral/sass/src/panel/Table.scss */
+.x-grid-cell-inner {
+  text-overflow: ellipsis;
+  padding: 5px 10px 4px 10px;
+}
+
+/* line 178, ../../../../ext/packages/ext-theme-neutral/sass/src/panel/Table.scss */
+.x-grid-cell-special {
+  border-color: #ededed;
+  border-style: solid;
+  border-right-width: 1px 0;
+}
+
+/* line 228, ../../../../ext/packages/ext-theme-neutral/sass/src/panel/Table.scss */
+.x-grid-dirty-cell {
+  background: url(images/grid/dirty.png) no-repeat 0 0;
+}
+
+/* line 241, ../../../../ext/packages/ext-theme-neutral/sass/src/panel/Table.scss */
+.x-grid-row .x-grid-cell-selected {
+  color: null;
+  background-color: #c1ddf1;
+}
+
+/* line 247, ../../../../ext/packages/ext-theme-neutral/sass/src/panel/Table.scss */
+.x-grid-with-col-lines .x-grid-cell {
+  border-right-width: 1px;
+}
+
+/* line 259, ../../../../ext/packages/ext-theme-neutral/sass/src/panel/Table.scss */
+.x-grid-resize-marker {
+  width: 1px;
+  background-color: #0f0f0f;
+}
+
+/* line 2, ../../../../ext/packages/ext-theme-neutral/sass/src/grid/header/DropZone.scss */
+.col-move-top,
+.col-move-bottom {
+  width: 9px;
+  height: 9px;
+}
+
+/* line 7, ../../../../ext/packages/ext-theme-neutral/sass/src/grid/header/DropZone.scss */
+.col-move-top {
+  background-image: url(images/grid/col-move-top.png);
+}
+
+/* line 11, ../../../../ext/packages/ext-theme-neutral/sass/src/grid/header/DropZone.scss */
+.col-move-bottom {
+  background-image: url(images/grid/col-move-bottom.png);
+}
+
+/* line 1, ../../../../ext/packages/ext-theme-neutral/sass/src/grid/header/Container.scss */
+.x-grid-header-ct {
+  border: 1px solid #157fcc;
+  border-bottom-color: #f5f5f5;
+  background-color: #f5f5f5;
+}
+
+/* line 28, ../../../../ext/packages/ext-theme-neutral/sass/src/grid/header/Container.scss */
+.x-grid-body {
+  border-top-color: silver;
+}
+
+/* line 32, ../../../../ext/packages/ext-theme-neutral/sass/src/grid/header/Container.scss */
+.x-hmenu-sort-asc .x-menu-item-icon {
+  background-image: url(images/grid/hmenu-asc.png);
+}
+
+/* line 36, ../../../../ext/packages/ext-theme-neutral/sass/src/grid/header/Container.scss */
+.x-hmenu-sort-desc .x-menu-item-icon {
+  background-image: url(images/grid/hmenu-desc.png);
+}
+
+/* line 40, ../../../../ext/packages/ext-theme-neutral/sass/src/grid/header/Container.scss */
+.x-cols-icon .x-menu-item-icon {
+  background-image: url(images/grid/columns.png);
+}
+
+/* line 1, ../../../../ext/packages/ext-theme-neutral/sass/src/grid/column/Column.scss */
+.x-column-header {
+  border-right: 1px solid silver;
+  color: #666666;
+  font: bold 13px/15px helvetica, arial, verdana, sans-serif;
+  background-color: #f5f5f5;
+}
+
+/* line 24, ../../../../ext/packages/ext-theme-neutral/sass/src/grid/column/Column.scss */
+.x-group-sub-header {
+  background: transparent;
+  border-top: 1px solid silver;
+}
+/* line 29, ../../../../ext/packages/ext-theme-neutral/sass/src/grid/column/Column.scss */
+.x-group-sub-header .x-column-header-inner {
+  padding: 6px 10px 7px 10px;
+}
+
+/* line 34, ../../../../ext/packages/ext-theme-neutral/sass/src/grid/column/Column.scss */
+.x-column-header-inner {
+  padding: 7px 10px 7px 10px;
+  text-overflow: ellipsis;
+}
+
+/* line 42, ../../../../ext/packages/ext-theme-neutral/sass/src/grid/column/Column.scss */
+.x-column-header-over,
+.x-column-header-sort-ASC,
+.x-column-header-sort-DESC {
+  background-image: none;
+  background-color: #eef6fb;
+}
+
+/* line 70, ../../../../ext/packages/ext-theme-neutral/sass/src/grid/column/Column.scss */
+.x-column-header-open {
+  background-color: #eef6fb;
+}
+/* line 73, ../../../../ext/packages/ext-theme-neutral/sass/src/grid/column/Column.scss */
+.x-column-header-open .x-column-header-trigger {
+  background-color: #dfeaf2;
+}
+
+/* line 78, ../../../../ext/packages/ext-theme-neutral/sass/src/grid/column/Column.scss */
+.x-column-header-trigger {
+  width: 18px;
+  cursor: pointer;
+  background-color: transparent;
+  background-position: center center;
+}
+
+/* line 96, ../../../../ext/packages/ext-theme-neutral/sass/src/grid/column/Column.scss */
+.x-column-header-align-right .x-column-header-text {
+  margin-right: 12px;
+}
+
+/* line 110, ../../../../ext/packages/ext-theme-neutral/sass/src/grid/column/Column.scss */
+.x-column-header-sort-ASC .x-column-header-text,
+.x-column-header-sort-DESC .x-column-header-text {
+  padding-right: 17px;
+  background-position: right center;
+}
+
+/* line 127, ../../../../ext/packages/ext-theme-neutral/sass/src/grid/column/Column.scss */
+.x-column-header-sort-ASC .x-column-header-text {
+  background-image: url(images/grid/sort_asc.png);
+}
+
+/* line 130, ../../../../ext/packages/ext-theme-neutral/sass/src/grid/column/Column.scss */
+.x-column-header-sort-DESC .x-column-header-text {
+  background-image: url(images/grid/sort_desc.png);
+}
+
+/* line 1, ../../../../ext/packages/ext-theme-neutral/sass/src/grid/column/Action.scss */
+.x-grid-cell-inner-action-col {
+  padding: 4px 4px 4px 4px;
+}
+
+/* line 12, ../../../../ext/packages/ext-theme-neutral/sass/src/grid/column/Action.scss */
+.x-action-col-cell .x-item-disabled {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=30);
+  opacity: 0.3;
+}
+
+/* line 16, ../../../../ext/packages/ext-theme-neutral/sass/src/grid/column/Action.scss */
+.x-action-col-icon {
+  height: 16px;
+  width: 16px;
+  cursor: pointer;
+}
+
+/* line 1, ../../../../ext/packages/ext-theme-neutral/sass/src/grid/locking/Lockable.scss */
+.x-grid-locked .x-grid-inner-locked {
+  border-width: 0 1px 0 0;
+  border-style: solid;
+}
+
+/* line 17, ../../../../ext/packages/ext-theme-neutral/sass/src/grid/locking/Lockable.scss */
+.x-grid-inner-locked .x-column-header-last,
+.x-grid-inner-locked .x-grid-cell-last {
+  border-right-width: 0!important;
+}
+
+/* line 39, ../../../../ext/packages/ext-theme-neutral/sass/src/grid/locking/Lockable.scss */
+.x-hmenu-lock .x-menu-item-icon {
+  background-image: url(images/grid/hmenu-lock.png);
+}
+
+/* line 43, ../../../../ext/packages/ext-theme-neutral/sass/src/grid/locking/Lockable.scss */
+.x-hmenu-unlock .x-menu-item-icon {
+  background-image: url(images/grid/hmenu-unlock.png);
+}
+
 /* line 1, ../../../../ext/packages/ext-theme-neutral/sass/src/resizer/Splitter.scss */
 .x-collapse-el {
   cursor: pointer;
@@ -13614,6 +14045,37 @@ textarea.x-form-empty-field {
 .x-resizable-pinned .x-resizable-handle-southwest {
   background-position: top right;
   background-image: url(images/sizer/sw-handle.png);
+}
+
+/* line 1, ../../../../ext/packages/ext-theme-neutral/sass/src/selection/CheckboxModel.scss */
+.x-column-header-checkbox {
+  border-color: #f5f5f5;
+}
+
+/* line 6, ../../../../ext/packages/ext-theme-neutral/sass/src/selection/CheckboxModel.scss */
+.x-grid-row-checker,
+.x-column-header-checkbox .x-column-header-text {
+  height: 15px;
+  width: 15px;
+  background-image: url(images/form/checkbox.png);
+  line-height: 15px;
+}
+
+/* line 15, ../../../../ext/packages/ext-theme-neutral/sass/src/selection/CheckboxModel.scss */
+.x-column-header-checkbox .x-column-header-inner {
+  padding: 7px 4px 7px 4px;
+}
+
+/* line 19, ../../../../ext/packages/ext-theme-neutral/sass/src/selection/CheckboxModel.scss */
+.x-grid-cell-row-checker .x-grid-cell-inner {
+  padding: 5px 4px 4px 4px;
+}
+
+/* line 32, ../../../../ext/packages/ext-theme-neutral/sass/src/selection/CheckboxModel.scss */
+.x-grid-hd-checker-on .x-column-header-text,
+.x-grid-row-selected .x-grid-row-checker,
+.x-grid-row-checked .x-grid-row-checker {
+  background-position: 0 -15px;
 }
 
 /* including package ext-theme-neptune */
@@ -17124,6 +17586,31 @@ body.x-nbr .x-panel-header-light-framed-collapsed-left-frameInfo {
 .x-panel-light-framed-outer-border-trbl {
   border-color: #157fcc !important;
   border-width: 1px !important;
+}
+
+/* line 1, ../../../../ext/packages/ext-theme-neptune/sass/src/grid/header/Container.scss */
+.x-grid-header-ct {
+  border: 1px solid silver;
+}
+
+/* line 6, ../../../../ext/packages/ext-theme-neptune/sass/src/grid/column/Column.scss */
+.x-column-header-trigger {
+  background-image: url(images/grid/hd-pop.png);
+  border-left: 1px solid silver;
+}
+
+/* line 18, ../../../../ext/packages/ext-theme-neptune/sass/src/grid/column/Column.scss */
+.x-column-header-last {
+  border-right: 0;
+}
+/* line 20, ../../../../ext/packages/ext-theme-neptune/sass/src/grid/column/Column.scss */
+.x-column-header-last .x-column-header-over .x-column-header-trigger {
+  border-right: 1px solid silver;
+}
+
+/* line 25, ../../../../ext/packages/ext-theme-neptune/sass/src/grid/column/Column.scss */
+.x-column-header-last {
+  border-right: 0 none;
 }
 
 /* line 1, ../../../../ext/packages/ext-theme-neptune/sass/src/resizer/Resizer.scss */
