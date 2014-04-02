@@ -27,6 +27,7 @@ package com.athena.dolly.console.module.hotrod;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -190,6 +191,26 @@ public class DollyManager {
     
     /**
      * <pre>
+     * RemoteCache에 저장된 Cache Key를 조회한다.
+     * </pre>
+     * @param cacheKey
+     * @return
+     */
+	public List<SessionKey> getKeys() {
+		List<SessionKey> sessionKeyList = new ArrayList<SessionKey>();
+		Enumeration<String> cacheKeys = Collections.enumeration(cache.keySet());
+	    SessionKey sessionKey = null;
+	    while (cacheKeys.hasMoreElements()) {
+	    	sessionKey = new SessionKey();
+	    	sessionKey.setKey(cacheKeys.nextElement());
+	    	sessionKeyList.add(sessionKey);
+	    }
+	    
+	    return sessionKeyList;
+    }//end of getKeys()
+    
+    /**
+     * <pre>
      * RemoteCache에서 주어진 Cache Key에 해당하는 Data가 Map 형태일 경우 해당 Map의 키 목록을 Enumeration 형태로 조회한다.
      * </pre>
      * @param cacheKey
@@ -271,13 +292,16 @@ public class DollyManager {
 	}//end of getStats()
 	
 	public static void main(String[] args) {
-		DollyManager.getInstance().setValue("cachekey", "cachevalue");
+		for (int i = 0; i < 100; i++) {
+			DollyManager.getInstance().setValue("cachekey" + i, "cachevalue" + i);
+		}
+		
 		DollyManager.getInstance().printAllCache();
 		DollyStats stat = DollyManager.getInstance().getStats();
 		
 		logger.debug("{}", stat);
 		
-		DollyManager.getInstance().removeValue("cachekey");
+		//DollyManager.getInstance().removeValue("cachekey");
 	}
 }
 //end of DollyManager.java
