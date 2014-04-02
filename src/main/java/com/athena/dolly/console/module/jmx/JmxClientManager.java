@@ -24,10 +24,23 @@
  */
 package com.athena.dolly.console.module.jmx;
 
+import java.lang.management.ManagementFactory;
+import java.lang.management.OperatingSystemMXBean;
+import java.lang.management.RuntimeMXBean;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
+import javax.management.Attribute;
+import javax.management.AttributeList;
+import javax.management.MBeanAttributeInfo;
+import javax.management.MBeanInfo;
+import javax.management.MBeanServer;
 import javax.management.MBeanServerConnection;
+import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
 import javax.management.openmbean.CompositeDataSupport;
 
@@ -39,12 +52,13 @@ import org.springframework.stereotype.Component;
 import com.athena.dolly.console.module.core.DollyConfig;
 import com.athena.dolly.console.module.hotrod.ConfigurationException;
 import com.athena.dolly.console.module.jmx.vo.MemoryVo;
+import com.athena.dolly.console.module.jmx.vo.OperationgSystemVo;
 
 /**
  * <pre>
  * 
  * </pre>
- * @author Sang-cheon Park
+ * @author Man-Woong Choi
  * @version 1.0
  */
 @Component
@@ -102,7 +116,7 @@ public class JmxClientManager implements InitializingBean {
 		return jmxClientMap.containsKey(nodeName);
 	}//end of isValidNodeName()
 	
-	public static MemoryVo getMenoryUsage(String nodeName) {
+	public static MemoryVo getMemoryUsage(String nodeName) {
 		JmxClient jmxClient = jmxClientMap.get(nodeName);
         
         MemoryVo memory = null;
@@ -123,5 +137,172 @@ public class JmxClientManager implements InitializingBean {
         
         return memory;
 	}
+	
+	public static OperationgSystemVo getOperatingSystemUsage(String nodeName) {
+		JmxClient jmxClient = jmxClientMap.get(nodeName);
+        
+		OperationgSystemVo osVo = null;
+		try {
+			ObjectName objectName=new ObjectName("java.lang:type=OperatingSystem");			
+			
+			MBeanServerConnection connection = jmxClient.getJmxConnector().getMBeanServerConnection();
+			
+			osVo = new OperationgSystemVo();
+
+			osVo.setName((String) connection.getAttribute(objectName, "Name"));
+			osVo.setVersion((String) connection.getAttribute(objectName, "Version"));
+			osVo.setArch((String) connection.getAttribute(objectName, "Arch"));
+			osVo.setSystemLoadAverage((Double) connection.getAttribute(objectName, "SystemLoadAverage"));
+			osVo.setAvailableProcessors((Integer)connection.getAttribute(objectName, "AvailableProcessors"));
+			
+			osVo.setFreePhysicalMemory((Long) connection.getAttribute(objectName, "FreePhysicalMemorySize"));
+			osVo.setFreeSwapSpaceSize((Long) connection.getAttribute(objectName, "FreeSwapSpaceSize"));
+			osVo.setProcessCpuTime((Long) connection.getAttribute(objectName, "ProcessCpuTime"));
+			osVo.setCommittedVirtualMemorySize((Long) connection.getAttribute(objectName, "CommittedVirtualMemorySize"));
+			osVo.setTotalPhysicalMemorySize((Long) connection.getAttribute(objectName, "TotalPhysicalMemorySize"));
+			osVo.setTotalSwapSpaceSize((Long) connection.getAttribute(objectName, "TotalSwapSpaceSize"));
+			
+		} catch (Exception e) {
+			logger.error("unhandled exception has errored : ", e);
+		}
+        
+        return osVo;
+	}
+	
+	
+	
+	public static HashMap<String,Object> getCpuUsage(String nodeName) {
+	    
+		JmxClient jmxClient = jmxClientMap.get(nodeName);
+
+		try {
+
+
+			MBeanServerConnection connection = jmxClient.getJmxConnector().getMBeanServerConnection();
+			
+		    HashMap<String, Object> cpuUsageMap = new HashMap<String,Object>();
+	    	
+			ObjectName osObjectName = new ObjectName("java.lang:type=OperatingSystem");			
+			ObjectName runTimeObjectName = new ObjectName("java.lang:type=Runtime");			
+
+			//before Cpu
+			int availableProcessors = (Integer)connection.getAttribute(osObjectName, "AvailableProcessors");
+		    long prevUpTime = (Long) connection.getAttribute(runTimeObjectName, "Uptime");
+		    long prevProcessCpuTime = (Long) connection.getAttribute(osObjectName, "ProcessCpuTime");
+		    
+		    double cpuUsage;			
+
+		    try 
+		    {
+		        Thread.sleep(1000);
+		    } 
+		    catch (Exception ignored) { }
+		    
+			//after Cpu
+		    long upTime = (Long) connection.getAttribute(runTimeObjectName, "Uptime");
+		    long processCpuTime = (Long) connection.getAttribute(osObjectName, "ProcessCpuTime");
+
+		    long elapsedCpu = processCpuTime - prevProcessCpuTime;
+		    long elapsedTime = upTime - prevUpTime;		    
+		    
+		    cpuUsage = Math.min(99F, elapsedCpu / (elapsedTime * 10000F * availableProcessors));
+
+		    System.out.println("CPU Usage: " + cpuUsage);
+		    Object objCpuUsage = cpuUsage;
+		    
+		    cpuUsageMap.put("cpuUsage", String.format("%.2f", objCpuUsage));
+		    
+		    return cpuUsageMap;
+			
+		} catch (Exception e) {
+			logger.error("unhandled exception has errored : ", e);
+		}
+		
+		return null;
+	}
+	
+	
+	
+	public static HashMap<String,Object> getObjectNameInfo(ObjectName objName, String nodeName) {
+	    
+		JmxClient jmxClient = jmxClientMap.get(nodeName);
+
+		try {
+
+			MBeanServerConnection connection = jmxClient.getJmxConnector().getMBeanServerConnection();
+			
+		    HashMap<String, Object> infoMap = new HashMap<String,Object>();
+	    	
+			Set<ObjectName> names = 
+				    new TreeSet<ObjectName>(connection.queryNames(objName, null));
+				
+			for (ObjectName name : names) {
+
+				
+				logger.info("#######################");
+				logger.info("\tObjectName = " + name);
+
+				MBeanInfo info = connection.getMBeanInfo(name);
+		        MBeanAttributeInfo[] attributes = info.getAttributes();
+		        
+		        for (MBeanAttributeInfo attr : attributes)
+		        {
+		        	
+		        	logger.info("==========================");
+		        	logger.info("attrName = " + attr.getName());
+		        	logger.info("attrType = " + attr.getType());
+		        	logger.info("connection.getAttribute = " + connection.getAttribute(name, attr.getName()));
+
+		        	infoMap.put(attr.getName(), connection.getAttribute(name, attr.getName()));
+				}
+			}		    
+		    
+		    return infoMap;
+			
+		} catch (Exception e) {
+			logger.error("unhandled exception has errored : ", e);
+		}
+		
+		return null;
+	}
+	
+
+	public static HashMap<String,Object> getCacheStatisticsInfo(String nodeName){
+	    
+		try
+		{
+			ObjectName cacheStatisticsInfo = new ObjectName("jboss.infinispan:type=Cache,name=\"default(dist_sync)\",manager=\"clustered\",component=Statistics");	
+			
+			HashMap <String, Object> cacheMap = getObjectNameInfo(cacheStatisticsInfo , nodeName);
+	        
+			return cacheMap;
+			
+		} catch (Exception e) {
+			logger.error("unhandled exception has errored : ", e);
+		}
+		
+		return null;
+	}
+
+	
+	public static HashMap<String,Object> getCacheManagerInfo(String nodeName){
+	    
+		try
+		{
+			ObjectName cacheManagerObjectName = new ObjectName("jboss.infinispan:type=CacheManager,name=\"clustered\",component=CacheManager");	
+			
+			HashMap <String, Object> cacheManagerMap = getObjectNameInfo(cacheManagerObjectName , nodeName);
+	        
+			return cacheManagerMap;
+			
+		} catch (Exception e) {
+			logger.error("unhandled exception has errored : ", e);
+		}
+		
+		return null;
+	}
+	
+	
+	
 }
 //end of JmxClientManager.java
