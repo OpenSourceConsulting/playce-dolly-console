@@ -24,9 +24,11 @@
  */
 package com.athena.dolly.console.web.contorller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -47,6 +49,7 @@ import com.athena.dolly.console.module.hotrod.DollyStats;
 import com.athena.dolly.console.module.hotrod.SessionKey;
 import com.athena.dolly.console.module.jmx.JmxClientManager;
 import com.athena.dolly.console.module.jmx.vo.MemoryVo;
+import com.athena.dolly.console.module.jmx.vo.OperationgSystemVo;
 import com.athena.dolly.console.web.exception.ResourceNotFoundException;
 
 /**
@@ -108,6 +111,8 @@ public class ConsoleController {
     	return "success";
     }
     
+    
+    
     @RequestMapping(value="/memory/{nodeName}", method=RequestMethod.GET)
     @ResponseStatus(value=HttpStatus.OK)
     @ResponseBody
@@ -117,9 +122,62 @@ public class ConsoleController {
     		throw new ResourceNotFoundException("Resource Not Found at [" + request.getRequestURI() + "]");
     	}
     	
-    	return JmxClientManager.getMenoryUsage(nodeName);
+    	return JmxClientManager.getMemoryUsage(nodeName);
     }
 
+    
+
+    @RequestMapping(value="/os/{nodeName}", method=RequestMethod.GET)
+    @ResponseStatus(value=HttpStatus.OK)
+    @ResponseBody
+    public OperationgSystemVo getOperatingSystemUsage(HttpServletRequest request, @PathVariable String nodeName) {
+    	
+    	if (!JmxClientManager.isValidNodeName(nodeName)) {
+    		throw new ResourceNotFoundException("Resource Not Found at [" + request.getRequestURI() + "]");
+    	}
+    	
+    	return JmxClientManager.getOperatingSystemUsage(nodeName);
+    }
+    
+    
+    @RequestMapping(value="/cpu/{nodeName}", method=RequestMethod.GET)
+    @ResponseStatus(value=HttpStatus.OK)
+    @ResponseBody
+    public HashMap<String,Object> getCpuUsage(HttpServletRequest request, @PathVariable String nodeName) {
+    	
+    	if (!JmxClientManager.isValidNodeName(nodeName)) {
+    		throw new ResourceNotFoundException("Resource Not Found at [" + request.getRequestURI() + "]");
+    	}
+    	
+    	return JmxClientManager.getCpuUsage(nodeName);
+    }
+    
+    @RequestMapping(value="/cacheStatistics/{nodeName}", method=RequestMethod.GET)
+    @ResponseStatus(value=HttpStatus.OK)
+    @ResponseBody
+    public HashMap<String,Object> getCacheStatistics(HttpServletRequest request, @PathVariable String nodeName) {
+    	
+    	if (!JmxClientManager.isValidNodeName(nodeName)) {
+    		throw new ResourceNotFoundException("Resource Not Found at [" + request.getRequestURI() + "]");
+    	}
+    	
+    	return JmxClientManager.getCacheStatisticsInfo(nodeName);
+    }    
+    
+
+    @RequestMapping(value="/cacheManager/{nodeName}", method={RequestMethod.GET,RequestMethod.POST})
+    @ResponseStatus(value=HttpStatus.OK)
+    @ResponseBody
+    public HashMap<String,Object> getCacheManager(HttpServletRequest request, HttpServletResponse response, @PathVariable String nodeName) {
+    	
+    	if (!JmxClientManager.isValidNodeName(nodeName)) {
+    		throw new ResourceNotFoundException("Resource Not Found at [" + request.getRequestURI() + "]");
+    	}
+
+    	return JmxClientManager.getCacheManagerInfo(nodeName);
+    }     
+    
+    
     @ResponseStatus(value=HttpStatus.NOT_FOUND)
     @ExceptionHandler(ResourceNotFoundException.class)
 	public Response handleCustomException(ResourceNotFoundException ex) {
