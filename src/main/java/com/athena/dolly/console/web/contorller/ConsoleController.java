@@ -116,13 +116,18 @@ public class ConsoleController {
     	
     	return "success";
     }
-    
-    
+
+    @RequestMapping(value="/memories", method=RequestMethod.GET)
+    @ResponseStatus(value=HttpStatus.OK)
+    @ResponseBody
+    public List<MemoryVo> getMemoryUsageList(HttpServletRequest request) {    	
+    	return JmxClientManager.getMemoryUsageList();
+    }
     
     @RequestMapping(value="/memory/{nodeName}", method=RequestMethod.GET)
     @ResponseStatus(value=HttpStatus.OK)
     @ResponseBody
-    public MemoryVo momory(HttpServletRequest request, @PathVariable String nodeName) {
+    public MemoryVo getMemoryUsage(HttpServletRequest request, @PathVariable String nodeName) {
     	
     	if (!JmxClientManager.isValidNodeName(nodeName)) {
     		throw new ResourceNotFoundException("Resource Not Found at [" + request.getRequestURI() + "]");
@@ -130,8 +135,6 @@ public class ConsoleController {
     	
     	return JmxClientManager.getMemoryUsage(nodeName);
     }
-
-    
 
     @RequestMapping(value="/os/{nodeName}", method=RequestMethod.GET)
     @ResponseStatus(value=HttpStatus.OK)
@@ -145,6 +148,12 @@ public class ConsoleController {
     	return JmxClientManager.getOperatingSystemUsage(nodeName);
     }
     
+    @RequestMapping(value="/cpus", method=RequestMethod.GET)
+    @ResponseStatus(value=HttpStatus.OK)
+    @ResponseBody
+    public List<HashMap<String,Object>> getCpuUsageList(HttpServletRequest request) {    	
+    	return JmxClientManager.getCpuUsageList();
+    }
     
     @RequestMapping(value="/cpu/{nodeName}", method=RequestMethod.GET)
     @ResponseStatus(value=HttpStatus.OK)
@@ -170,7 +179,6 @@ public class ConsoleController {
     	return JmxClientManager.getCacheStatisticsInfo(nodeName);
     }    
     
-
     @RequestMapping(value="/cacheManager/{nodeName}", method={RequestMethod.GET,RequestMethod.POST})
     @ResponseStatus(value=HttpStatus.OK)
     @ResponseBody
@@ -182,7 +190,6 @@ public class ConsoleController {
 
     	return JmxClientManager.getCacheManagerInfo(nodeName);
     }     
-    
     
     @ResponseStatus(value=HttpStatus.NOT_FOUND)
     @ExceptionHandler(ResourceNotFoundException.class)

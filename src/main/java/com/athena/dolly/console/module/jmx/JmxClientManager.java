@@ -304,6 +304,44 @@ public class JmxClientManager implements InitializingBean {
 		
 		return null;
 	}
+
+	/**
+	 * <pre>
+	 * 
+	 * </pre>
+	 * @return
+	 */
+	public static List<MemoryVo> getMemoryUsageList() {
+		List<MemoryVo> memoryList = new ArrayList<MemoryVo>();
+		List<String> nodeList = getServerList();
+		
+		MemoryVo memory = null;
+		for (String nodeName : nodeList) {
+			memory = getMemoryUsage(nodeName);
+			memoryList.add(memory);
+		}
+		
+		return memoryList;
+	}
+
+	/**
+	 * <pre>
+	 * 
+	 * </pre>
+	 * @return
+	 */
+	public static List<HashMap<String, Object>> getCpuUsageList() {
+		List<HashMap<String, Object>> cpuList = new ArrayList<HashMap<String, Object>>();
+		List<String> nodeList = getServerList();
+		
+		HashMap<String, Object> cpu = null;
+		for (String nodeName : nodeList) {
+			cpu = getCpuUsage(nodeName);
+			cpuList.add(cpu);
+		}
+		
+		return cpuList;
+	}
 	
 	
 	

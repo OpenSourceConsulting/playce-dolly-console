@@ -24,12 +24,15 @@
  */
 package com.athena.dolly.console.module.hotrod;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 import org.infinispan.client.hotrod.RemoteCache;
 import org.infinispan.client.hotrod.RemoteCacheManager;
@@ -108,7 +111,7 @@ public class DollyManager {
 	 * @param value
 	 */
 	public synchronized void setValue(String cacheKey, Object value) {
-		cache.put(cacheKey, value);
+		cache.put(cacheKey, value, -1, TimeUnit.DAYS, -1, TimeUnit.DAYS);
     }//end of setValue()
     
 	/**
@@ -129,7 +132,7 @@ public class DollyManager {
 			}
 			
 			attribute.put(dataKey, value);
-			cache.put(cacheKey, attribute);
+			cache.put(cacheKey, attribute, -1, TimeUnit.DAYS, -1, TimeUnit.DAYS);
 		}
     }//end of setValue()
     
@@ -286,14 +289,16 @@ public class DollyManager {
 		stats.setRemoveHits(statistics.getStatistic(ServerStatistics.REMOVE_HITS));
 		stats.setRemoveMisses(statistics.getStatistic(ServerStatistics.REMOVE_MISSES));
 		
-		stats.setCacheKeys(new ArrayList<String>(cache.keySet()));
-		
 		return stats;
 	}//end of getStats()
 	
 	public static void main(String[] args) {
+		UserVo user = null;
 		for (int i = 0; i < 100; i++) {
-			DollyManager.getInstance().setValue("cachekey" + i, "cachevalue" + i);
+			user = new UserVo();
+			user.setUserId("osci_" + i);
+			user.setEmail("support" + i + "@osck.kr");
+			DollyManager.getInstance().setValue(UUID.randomUUID().toString(), user);
 		}
 		
 		DollyManager.getInstance().printAllCache();
@@ -301,7 +306,104 @@ public class DollyManager {
 		
 		logger.debug("{}", stat);
 		
+		
+		
 		//DollyManager.getInstance().removeValue("cachekey");
 	}
 }
 //end of DollyManager.java
+
+class UserVo implements Serializable {
+	private static final long serialVersionUID = 1L;
+	private String userId = "osci";
+	private String firstName = "Open Source";
+	private String lastName = "Consulting";
+	private String email = "support@osci.kr";
+	private int age = 30;
+	private String address1 = "Address 1";
+	private String address2 = "Address 2";
+	/**
+	 * @return the userId
+	 */
+	public String getUserId() {
+		return userId;
+	}
+	/**
+	 * @param userId the userId to set
+	 */
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+	/**
+	 * @return the firstName
+	 */
+	public String getFirstName() {
+		return firstName;
+	}
+	/**
+	 * @param firstName the firstName to set
+	 */
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+	/**
+	 * @return the lastName
+	 */
+	public String getLastName() {
+		return lastName;
+	}
+	/**
+	 * @param lastName the lastName to set
+	 */
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+	/**
+	 * @return the email
+	 */
+	public String getEmail() {
+		return email;
+	}
+	/**
+	 * @param email the email to set
+	 */
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	/**
+	 * @return the age
+	 */
+	public int getAge() {
+		return age;
+	}
+	/**
+	 * @param age the age to set
+	 */
+	public void setAge(int age) {
+		this.age = age;
+	}
+	/**
+	 * @return the address1
+	 */
+	public String getAddress1() {
+		return address1;
+	}
+	/**
+	 * @param address1 the address1 to set
+	 */
+	public void setAddress1(String address1) {
+		this.address1 = address1;
+	}
+	/**
+	 * @return the address2
+	 */
+	public String getAddress2() {
+		return address2;
+	}
+	/**
+	 * @param address2 the address2 to set
+	 */
+	public void setAddress2(String address2) {
+		this.address2 = address2;
+	}
+}
