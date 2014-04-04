@@ -60,10 +60,16 @@ import com.athena.dolly.console.web.exception.ResourceNotFoundException;
  * @version 1.0
  */
 @Controller
-@RequestMapping("/")
+@RequestMapping("")
 public class ConsoleController {
 
     private static final Logger logger = LoggerFactory.getLogger(ConsoleController.class);
+
+    @RequestMapping(value="/getServerList", method=RequestMethod.GET)
+    @ResponseBody
+    public List<String> getServerList(HttpServletRequest request) {
+    	return JmxClientManager.getServerList();
+    }
 
     @RequestMapping(value="/getStat", method=RequestMethod.GET)
     @ResponseStatus(value=HttpStatus.OK)

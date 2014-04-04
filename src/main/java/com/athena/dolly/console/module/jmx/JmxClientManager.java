@@ -24,23 +24,16 @@
  */
 package com.athena.dolly.console.module.jmx;
 
-import java.lang.management.ManagementFactory;
-import java.lang.management.OperatingSystemMXBean;
-import java.lang.management.RuntimeMXBean;
-import java.util.Arrays;
-import java.util.Comparator;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-import javax.management.Attribute;
-import javax.management.AttributeList;
 import javax.management.MBeanAttributeInfo;
 import javax.management.MBeanInfo;
-import javax.management.MBeanServer;
 import javax.management.MBeanServerConnection;
-import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
 import javax.management.openmbean.CompositeDataSupport;
 
@@ -104,6 +97,16 @@ public class JmxClientManager implements InitializingBean {
 	public static JmxClient getJmxClient(String nodeName) {
 		return jmxClientMap.get(nodeName);
 	}//end of getJmxClient()
+	
+	/**
+	 * <pre>
+	 * 
+	 * </pre>
+	 * @return
+	 */
+	public static List<String> getServerList() {
+		return new ArrayList<String>(jmxClientMap.keySet());
+	}//end of getServerList()
 	
 	/**
 	 * <pre>

@@ -4655,6 +4655,83 @@ img {
   border-style: solid;
 }
 
+/* line 1, ../../../../ext/packages/ext-theme-base/sass/src/draw/Component.scss */
+.x-surface {
+  display: -moz-inline-stack;
+  display: inline-block;
+  vertical-align: middle;
+  *vertical-align: auto;
+  zoom: 1;
+  *display: inline;
+  overflow: hidden;
+}
+
+/* line 6, ../../../../ext/packages/ext-theme-base/sass/src/draw/Component.scss */
+.rvml {
+  behavior: url(#default#VML);
+}
+
+/* line 10, ../../../../ext/packages/ext-theme-base/sass/src/draw/Component.scss */
+.x-surface tspan {
+  user-select: none;
+  -o-user-select: none;
+  -ms-user-select: none;
+  -moz-user-select: -moz-none;
+  -webkit-user-select: none;
+  cursor: default;
+}
+
+/* line 14, ../../../../ext/packages/ext-theme-base/sass/src/draw/Component.scss */
+.x-vml-sprite {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1px;
+  height: 1px;
+}
+
+/* line 22, ../../../../ext/packages/ext-theme-base/sass/src/draw/Component.scss */
+.x-vml-group {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1000px;
+  height: 1000px;
+}
+
+/* line 30, ../../../../ext/packages/ext-theme-base/sass/src/draw/Component.scss */
+.x-vml-measure-span {
+  position: absolute;
+  left: -9999em;
+  top: -9999em;
+  padding: 0;
+  margin: 0;
+  display: inline;
+}
+
+/* line 39, ../../../../ext/packages/ext-theme-base/sass/src/draw/Component.scss */
+.x-vml-base {
+  position: relative;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  display: inline-block;
+}
+
+/* line 47, ../../../../ext/packages/ext-theme-base/sass/src/draw/Component.scss */
+.x-vml-base {
+  position: relative;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  display: inline-block;
+}
+
+/* line 55, ../../../../ext/packages/ext-theme-base/sass/src/draw/Component.scss */
+svg, vml {
+  overflow: hidden;
+}
+
 /* line 1, ../../../../ext/packages/ext-theme-base/sass/src/container/Viewport.scss */
 .x-viewport, .x-viewport body {
   margin: 0;
