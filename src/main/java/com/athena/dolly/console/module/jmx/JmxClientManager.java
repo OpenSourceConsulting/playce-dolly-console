@@ -29,6 +29,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 import javax.management.MBeanAttributeInfo;
@@ -76,7 +77,7 @@ public class JmxClientManager implements InitializingBean {
 		String user = config.getUser();
 		String passwd = config.getPasswd();
 		
-		jmxClientMap = new HashMap<String, JmxClient>();
+		jmxClientMap = new TreeMap<String, JmxClient>();
 		
 		JmxClient jmxClient = null;
 		for (int i = 0; i < jmxServers.length; i++) {
@@ -134,6 +135,8 @@ public class JmxClientManager implements InitializingBean {
 	        memory.setInit((Long)heapMemoryUsage.get("init"));
 	        memory.setMax((Long)heapMemoryUsage.get("max"));
 	        memory.setUsed((Long)heapMemoryUsage.get("used"));
+	        
+        	logger.debug("nodeName: [{}], memoryUsage: [committed: {}, init:{}, max:{}, used:{}]", new Object[]{nodeName, memory.getCommitted(), memory.getInit(), memory.getMax(), memory.getUsed()});
 		} catch (Exception e) {
 			logger.error("unhandled exception has errored : ", e);
 		}
@@ -172,18 +175,12 @@ public class JmxClientManager implements InitializingBean {
         return osVo;
 	}
 	
-	
-	
-	public static HashMap<String,Object> getCpuUsage(String nodeName) {
-	    
+	public static String getCpuUsage(String nodeName) {
+		String cpuUsageStr = null;
 		JmxClient jmxClient = jmxClientMap.get(nodeName);
-
+		
 		try {
-
-
 			MBeanServerConnection connection = jmxClient.getJmxConnector().getMBeanServerConnection();
-			
-		    HashMap<String, Object> cpuUsageMap = new HashMap<String,Object>();
 	    	
 			ObjectName osObjectName = new ObjectName("java.lang:type=OperatingSystem");			
 			ObjectName runTimeObjectName = new ObjectName("java.lang:type=Runtime");			
@@ -193,13 +190,11 @@ public class JmxClientManager implements InitializingBean {
 		    long prevUpTime = (Long) connection.getAttribute(runTimeObjectName, "Uptime");
 		    long prevProcessCpuTime = (Long) connection.getAttribute(osObjectName, "ProcessCpuTime");
 		    
-		    double cpuUsage;			
-
-		    try 
-		    {
+		    try  {
 		        Thread.sleep(1000);
-		    } 
-		    catch (Exception ignored) { }
+		    } catch (Exception ignored) { 
+		    	// ignore
+		    }
 		    
 			//after Cpu
 		    long upTime = (Long) connection.getAttribute(runTimeObjectName, "Uptime");
@@ -208,49 +203,32 @@ public class JmxClientManager implements InitializingBean {
 		    long elapsedCpu = processCpuTime - prevProcessCpuTime;
 		    long elapsedTime = upTime - prevUpTime;		    
 		    
-		    cpuUsage = Math.min(99F, elapsedCpu / (elapsedTime * 10000F * availableProcessors));
-
-		    System.out.println("CPU Usage: " + cpuUsage);
-		    Object objCpuUsage = cpuUsage;
-		    
-		    cpuUsageMap.put("cpuUsage", String.format("%.2f", objCpuUsage));
-		    
-		    return cpuUsageMap;
-			
+		    double cpuUsage = Math.min(99F, elapsedCpu / (elapsedTime * 10000F * availableProcessors));
+		    cpuUsageStr = String.format("%.2f", cpuUsage);
+        	logger.debug("nodeName: [{}], cpuUsage: [{}]", nodeName, cpuUsageStr);
 		} catch (Exception e) {
 			logger.error("unhandled exception has errored : ", e);
 		}
 		
-		return null;
+		return cpuUsageStr;
 	}
 	
-	
-	
 	public static HashMap<String,Object> getObjectNameInfo(ObjectName objName, String nodeName) {
-	    
 		JmxClient jmxClient = jmxClientMap.get(nodeName);
 
 		try {
-
 			MBeanServerConnection connection = jmxClient.getJmxConnector().getMBeanServerConnection();
-			
 		    HashMap<String, Object> infoMap = new HashMap<String,Object>();
-	    	
-			Set<ObjectName> names = 
-				    new TreeSet<ObjectName>(connection.queryNames(objName, null));
+			Set<ObjectName> names = new TreeSet<ObjectName>(connection.queryNames(objName, null));
 				
 			for (ObjectName name : names) {
-
-				
 				logger.info("#######################");
 				logger.info("\tObjectName = " + name);
 
 				MBeanInfo info = connection.getMBeanInfo(name);
 		        MBeanAttributeInfo[] attributes = info.getAttributes();
 		        
-		        for (MBeanAttributeInfo attr : attributes)
-		        {
-		        	
+		        for (MBeanAttributeInfo attr : attributes) {
 		        	logger.info("==========================");
 		        	logger.info("attrName = " + attr.getName());
 		        	logger.info("attrType = " + attr.getType());
@@ -261,43 +239,30 @@ public class JmxClientManager implements InitializingBean {
 			}		    
 		    
 		    return infoMap;
-			
 		} catch (Exception e) {
 			logger.error("unhandled exception has errored : ", e);
 		}
 		
 		return null;
 	}
-	
 
 	public static HashMap<String,Object> getCacheStatisticsInfo(String nodeName){
-	    
-		try
-		{
+		try {
 			ObjectName cacheStatisticsInfo = new ObjectName("jboss.infinispan:type=Cache,name=\"default(dist_sync)\",manager=\"clustered\",component=Statistics");	
-			
 			HashMap <String, Object> cacheMap = getObjectNameInfo(cacheStatisticsInfo , nodeName);
-	        
 			return cacheMap;
-			
 		} catch (Exception e) {
 			logger.error("unhandled exception has errored : ", e);
 		}
 		
 		return null;
 	}
-
 	
 	public static HashMap<String,Object> getCacheManagerInfo(String nodeName){
-	    
-		try
-		{
+		try {
 			ObjectName cacheManagerObjectName = new ObjectName("jboss.infinispan:type=CacheManager,name=\"clustered\",component=CacheManager");	
-			
 			HashMap <String, Object> cacheManagerMap = getObjectNameInfo(cacheManagerObjectName , nodeName);
-	        
 			return cacheManagerMap;
-			
 		} catch (Exception e) {
 			logger.error("unhandled exception has errored : ", e);
 		}
@@ -330,20 +295,51 @@ public class JmxClientManager implements InitializingBean {
 	 * </pre>
 	 * @return
 	 */
-	public static List<HashMap<String, Object>> getCpuUsageList() {
-		List<HashMap<String, Object>> cpuList = new ArrayList<HashMap<String, Object>>();
+	public static List<String> getCpuUsageList() {
+		Map<String, String> cpuMap = new TreeMap<String, String>();
+		List<String> cpuList = new ArrayList<String>();
 		List<String> nodeList = getServerList();
 		
-		HashMap<String, Object> cpu = null;
 		for (String nodeName : nodeList) {
-			cpu = getCpuUsage(nodeName);
-			cpuList.add(cpu);
+			new CpuInfo(nodeName, cpuMap).start();
+		}
+
+		try {
+			Thread.sleep(1500);
+		} catch (Exception e) {
+			//ignore
+		}
+		
+		for (String nodeName : nodeList) {
+			cpuList.add(cpuMap.get(nodeName));
 		}
 		
 		return cpuList;
 	}
-	
-	
-	
 }
 //end of JmxClientManager.java
+
+class CpuInfo extends Thread {
+	
+	private String nodeName;
+	private Map<String, String> cpuMap;
+	
+	/**
+	 * <pre>
+	 * 
+	 * </pre>
+	 */
+	public CpuInfo(String nodeName, Map<String, String> cpuMap) {
+		this.nodeName = nodeName;
+		this.cpuMap = cpuMap;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Runnable#run()
+	 */
+	@Override
+	public void run() {
+		cpuMap.put(nodeName, JmxClientManager.getCpuUsage(nodeName));
+	}
+	
+}

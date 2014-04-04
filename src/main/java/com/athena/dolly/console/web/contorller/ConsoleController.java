@@ -151,14 +151,14 @@ public class ConsoleController {
     @RequestMapping(value="/cpus", method=RequestMethod.GET)
     @ResponseStatus(value=HttpStatus.OK)
     @ResponseBody
-    public List<HashMap<String,Object>> getCpuUsageList(HttpServletRequest request) {    	
+    public List<String> getCpuUsageList(HttpServletRequest request) {    	
     	return JmxClientManager.getCpuUsageList();
     }
     
     @RequestMapping(value="/cpu/{nodeName}", method=RequestMethod.GET)
     @ResponseStatus(value=HttpStatus.OK)
     @ResponseBody
-    public HashMap<String,Object> getCpuUsage(HttpServletRequest request, @PathVariable String nodeName) {
+    public String getCpuUsage(HttpServletRequest request, @PathVariable String nodeName) {
     	
     	if (!JmxClientManager.isValidNodeName(nodeName)) {
     		throw new ResourceNotFoundException("Resource Not Found at [" + request.getRequestURI() + "]");
