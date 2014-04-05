@@ -306,8 +306,6 @@ public class DollyManager {
 		
 		logger.debug("{}", stat);
 		
-		
-		
 		//DollyManager.getInstance().removeValue("cachekey");
 	}
 }
