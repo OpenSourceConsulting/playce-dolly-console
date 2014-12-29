@@ -45,15 +45,17 @@ import com.athena.dolly.console.module.hotrod.ConfigurationException;
 public class DollyConfig {
 
 	private static final String CONFIG_FILE = "dolly.properties";
+	private static final String EMBEDDED = "infinispan.embedded";
 	private static final String JMX_SERVER_LIST = "infinispan.jmx.server.list";
-	private static final String JMX_USER = "infinispan.jmx.user";
-    private static final String JMX_PASSWD = "infinispan.jmx.passwd";
+	private static final String JMX_USER = "infinispan.jmx.user.list";
+    private static final String JMX_PASSWD = "infinispan.jmx.passwd.list";
     
     public static Properties properties;
     
+    private boolean embedded;
     private String[] jmxServers;
-    private String user;
-    private String passwd;
+    private String[] users;
+    private String[] passwds;
     
 	/**
 	 * <pre>
@@ -111,10 +113,21 @@ public class DollyConfig {
      * @throws ConfigurationException
      */
     private void parseConfigFile(Properties config) throws ConfigurationException {
+    	extractEmbedded(config);
     	extractJmxServerList(config);
-    	extractJmxUser(config);
-    	extractJmxPasswd(config);
+    	extractJmxUserList(config);
+    	extractJmxPasswdList(config);
     }//end of parseConfigFile()
+
+    /**
+     * <pre>
+     * Infinispan Embedded 여부를 확인한다.
+     * </pre>
+     * @param config
+     */
+    private void extractEmbedded(Properties config) {
+    	this.embedded = Boolean.parseBoolean(config.getProperty(EMBEDDED, "false"));
+    }//end of extractEmbedded()
 
     /**
      * <pre>
@@ -136,9 +149,13 @@ public class DollyConfig {
      * </pre>
      * @param config
      */
-    private void extractJmxUser(Properties config) {
-    	this.user = config.getProperty(JMX_USER, null);
-    }//end of extractJmxUser()
+    private void extractJmxUserList(Properties config) {
+    	String userList = config.getProperty(JMX_USER, null);
+    	
+    	if (StringUtils.isNotEmpty(userList)) {
+    		this.users = userList.split(";");
+    	}
+    }//end of extractJmxUserList()
 
     /**
      * <pre>
@@ -146,9 +163,27 @@ public class DollyConfig {
      * </pre>
      * @param config
      */
-    private void extractJmxPasswd(Properties config) {
-    	this.passwd = config.getProperty(JMX_PASSWD, null);
-    }//end of extractJmxPasswd()
+    private void extractJmxPasswdList(Properties config) {
+    	String passwdList = config.getProperty(JMX_PASSWD, null);
+    	
+    	if (StringUtils.isNotEmpty(passwdList)) {
+    		this.passwds = passwdList.split(";");
+    	}
+    }//end of extractJmxPasswdList()
+
+	/**
+	 * @return the embedded
+	 */
+	public boolean isEmbedded() {
+		return embedded;
+	}
+
+	/**
+	 * @param embedded the embedded to set
+	 */
+	public void setEmbedded(boolean embedded) {
+		this.embedded = embedded;
+	}
 
 	/**
 	 * @return the jmxServers
@@ -167,29 +202,29 @@ public class DollyConfig {
 	/**
 	 * @return the user
 	 */
-	public String getUser() {
-		return user;
+	public String[] getUsers() {
+		return users;
 	}
 
 	/**
-	 * @param user the user to set
+	 * @param users the users to set
 	 */
-	public void setUser(String user) {
-		this.user = user;
+	public void setUsers(String[] users) {
+		this.users = users;
 	}
 
 	/**
-	 * @return the passwd
+	 * @return the passwds
 	 */
-	public String getPasswd() {
-		return passwd;
+	public String[] getPasswds() {
+		return passwds;
 	}
 
 	/**
-	 * @param passwd the passwd to set
+	 * @param passwds the passwds to set
 	 */
-	public void setPasswd(String passwd) {
-		this.passwd = passwd;
+	public void setPasswds(String[] passwds) {
+		this.passwds = passwds;
 	}
 }
 //end of DollyConfig.java

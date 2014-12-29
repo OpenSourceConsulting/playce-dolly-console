@@ -48,17 +48,20 @@ public class JmxClient {
 	
 	private static final int RETRY_CNT = 3;
 	private static final String URL_PREFIX = "service:jmx:remoting-jmx://";
+	private static final String EMBEDDED_URL_PREFIX = "service:jmx:rmi:///jndi/rmi://";
 
 	private String connectionUrl;
 	private String user;
 	private String passwd;
+	private boolean embedded;
 	private String nodeName;
 	private JMXConnector jmxConnector;
 	
-	public JmxClient(String connectionUrl, String user, String passwd) {
+	public JmxClient(String connectionUrl, String user, String passwd, boolean embedded) {
 		this.connectionUrl = connectionUrl;
 		this.user = user;
 		this.passwd = passwd;
+		this.embedded = embedded;
 		
 		init();
 	}
@@ -95,12 +98,20 @@ public class JmxClient {
 	 */
 	public void init() {
         Map<String, Object> environment = new HashMap<String, Object>();
-        environment.put(JMXConnector.CREDENTIALS, new String[] {user, passwd});
+        
+        if (user != null && passwd != null) {
+        	environment.put(JMXConnector.CREDENTIALS, new String[] {user, passwd});
+        }
         environment.put("java.naming.factory.url.pkgs", "org.jboss.ejb.client.naming");
         environment.put("remote.connectionprovider.create.options.org.xnio.Options.SSL_STARTTLS", false);
         
 		try {
-			JMXServiceURL serviceURL = new JMXServiceURL(URL_PREFIX + connectionUrl);
+			JMXServiceURL serviceURL = null;
+			if (embedded) {
+				serviceURL = new JMXServiceURL(EMBEDDED_URL_PREFIX + connectionUrl + "/jmxrmi");
+			} else {
+				serviceURL = new JMXServiceURL(URL_PREFIX + connectionUrl);
+			}
 
 	        int cnt = 0;
 	        while(cnt++ < RETRY_CNT) {

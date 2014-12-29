@@ -73,15 +73,21 @@ public class JmxClientManager implements InitializingBean {
 			}
     	}
 		
+		boolean embedded = config.isEmbedded();
 		String[] jmxServers = config.getJmxServers();
-		String user = config.getUser();
-		String passwd = config.getPasswd();
+		String[] users = config.getUsers();
+		String[] passwds = config.getPasswds();
 		
 		jmxClientMap = new TreeMap<String, JmxClient>();
 		
 		JmxClient jmxClient = null;
 		for (int i = 0; i < jmxServers.length; i++) {
-			jmxClient = new JmxClient(jmxServers[i], user, passwd);
+			if (users != null && users.length == jmxServers.length &&
+					passwds != null && passwds.length == jmxServers.length) {
+				jmxClient = new JmxClient(jmxServers[i], users[i], passwds[i], embedded);
+			} else {
+				jmxClient = new JmxClient(jmxServers[i], null, null, embedded);
+			}
 			jmxClientMap.put(i + "", jmxClient);
 		}
 		
